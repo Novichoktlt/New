@@ -5,6 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 
+/** Простой сервис авторизации с хардкодом юзеров.
+         * На уроках по БД сделаем получше.
+         */
 public class PrimitiveAuthService implements AuthService {
     private List<Client> clients;
 
@@ -26,6 +29,12 @@ public class PrimitiveAuthService implements AuthService {
         System.out.println("Auth stopped");
     }
 
+    /**
+     * Собственно, все что он делает - проверяет, есть ли в его списке нужная пара логин/пароль
+     * @param login
+     * @param pass
+     * @return
+     */
     @Override
     public String getUsernameByLoginPass(String login, String pass) {
         for (Client c : clients) {

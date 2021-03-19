@@ -7,7 +7,15 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Timer;
+import java.util.TimerTask;
 
+/**
+
+ * Обработчик клиентов. Создается сервером на каждое подключение и получает свой сокет.
+ * Работает с одним сокетом/клиентом
+ * обрабатывает отправку сообщений данному конкретному клиенту и обработку сообщений, поступивших от клиента
+ */
 public class ClientHandler {
     private Socket socket;
     private DataOutputStream outputStream;
@@ -81,11 +89,25 @@ public class ClientHandler {
      * Сейчас завершится только после успеха
      */
     private void authenticate() {
-//        Timer t = new Timer()
+        Timer timer = new Timer();
         System.out.println("Authenticate started!");
         try {
             while (true) {
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        try {
+                            socket.close();
+                           } catch (IOException e) {
+                            e.printStackTrace();
+
+                        }
+
+                    }
+                }, 120000);
+
                 String authMessage = inputStream.readUTF();
+                if (timer != null) timer.cancel();
                 System.out.println("received msg ");
                 MessageDTO dto = MessageDTO.convertFromJson(authMessage);
                 String username = chatServer.getAuthService().getUsernameByLoginPass(dto.getLogin(), dto.getPassword());
@@ -113,6 +135,7 @@ public class ClientHandler {
         } catch (IOException e) {
             e.printStackTrace();
             closeHandler();
+
         }
     }
 

@@ -1,6 +1,10 @@
 package ru.auth;
 
 
+/**
+
+ * Сущность клиента для идентификации и авторизации
+ */
 public class Client {
     private String username;
     private String login;

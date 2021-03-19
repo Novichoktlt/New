@@ -22,6 +22,8 @@ public class ChatApp extends Application {
     private static Scene scene;
     private static Stage ourStage;
 
+
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         ourStage = primaryStage;

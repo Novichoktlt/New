@@ -1,10 +1,16 @@
 package ru;
 
+import javafx.application.Platform;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+/**
+
+ * Сетевой сервис. Подключается к серваку, пишет сообщения, в потоке читает входящие отдавая MessageService'у
+ */
 public class NetworkService {
     private final Socket socket;
     private final DataInputStream inputStream;
@@ -17,11 +23,15 @@ public class NetworkService {
 
         Thread t = new Thread(() -> {
             while (true) {
+
                 try {
                     String msg = inputStream.readUTF();
                     messageService.receiveMessage(msg);
                 } catch (IOException e) {
                     e.printStackTrace();
+                    Thread.currentThread().interrupt();
+                    Platform.exit();
+                   break;
                 }
             }
         });
@@ -37,4 +47,3 @@ public class NetworkService {
         }
     }
 }
-

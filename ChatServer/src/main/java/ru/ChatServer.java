@@ -11,6 +11,12 @@ import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+
+ * Собственно сервер
+ * Создает ServerSocket и слушает указанный порт.
+ * При подключении кого-либо, создает ClientHandler и отдает работу ему
+ */
 public class ChatServer {
     private static final int PORT = 65500;
     private List<ClientHandler> onlineClientsList;
